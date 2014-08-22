@@ -43,7 +43,11 @@
           var point = [];
           point[0] = parseFloat( data[index]["x"] ) / parseFloat( data[index]["w"] ) * 320;
           point[1] = parseFloat( data[index]["y"] ) / parseFloat( data[index]["h"] ) * 480;
-          point[2] = data[index]["t"];
+
+          // original unit(time) : data[index]["t"]; 
+          // Now unit(click) : 1
+          point[2] = 1;
+
           dataset.push(point);
 
           var pos = [ parseInt( point[0] / radius ), parseInt( point[1] / radius ), point[2] ];
