@@ -1,134 +1,134 @@
 <!DOCTYPE hmtl>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Simple Heat Test</title>
-	<style>
-		/* make both image and heatmap overlapping */
-		div#source img, div#source canvas{
-			max-width:320px;
-			max-height: 480px;
-			position: absolute;
-			top : 0px;
-			left: 0px;
-		}
-		/* and canvas is above on image */
-		div#source canvas{
-			z-index: 10;
-		}
-	</style>
-	<script type="text/javascript" src="js/jquery.min.js"></script>
-	<script type="text/javascript" src="js/simpleheat.js"></script>
-	<script>
-		$(document).ready(function(){
-			$.getJSON("raw.json",function(data){
-				var heat = simpleheat("paper"),
-					dataset = [],
-					radius = 10,
-					blur = 15,
-					max = 10;
+  <meta charset="UTF-8">
+  <title>Simple Heat Test</title>
+  <style>
+    /* make both image and heatmap overlapping */
+    div#source img, div#source canvas{
+      max-width:320px;
+      max-height: 480px;
+      position: absolute;
+      top : 0px;
+      left: 0px;
+    }
+    /* and canvas is above on image */
+    div#source canvas{
+      z-index: 10;
+    }
+  </style>
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/simpleheat.js"></script>
+  <script>
+    $(document).ready(function(){
+      $.getJSON("raw.json",function(data){
+        var heat = simpleheat("paper"),
+          dataset = [],
+          radius = 10,
+          blur = 15,
+          max = 10;
 
-				var matrix = new Array(320/radius+1);
+        var matrix = new Array(320/radius+1);
 
-				/* initial matrix */
+        /* initial matrix */
 
-				for(var index=0;index<matrix.length;index++)
-					matrix[index] = new Array(480/radius+1);
+        for(var index=0;index<matrix.length;index++)
+          matrix[index] = new Array(480/radius+1);
 
-				for(var index=0;index<data.length;index++){
-					var point = [];
-					point[0] = parseFloat(data[index]["x"])/parseFloat(data[index]["w"])*320;
-					point[1] = parseFloat(data[index]["y"])/parseFloat(data[index]["h"])*480;
-					point[2] = data[index]["t"];
-					dataset.push(point);
+        for(var index=0;index<data.length;index++){
+          var point = [];
+          point[0] = parseFloat(data[index]["x"])/parseFloat(data[index]["w"])*320;
+          point[1] = parseFloat(data[index]["y"])/parseFloat(data[index]["h"])*480;
+          point[2] = data[index]["t"];
+          dataset.push(point);
 
-					var pos = [ parseInt(point[0]/radius), parseInt(point[1]/radius), point[2] ];
+          var pos = [ parseInt(point[0]/radius), parseInt(point[1]/radius), point[2] ];
 
-					if(matrix[pos[0]][pos[1]]){
-						matrix[pos[0]][pos[1]] += pos[2];
-					}
-					else{
-						matrix[pos[0]][pos[1]] = pos[2];
-					}
-				};
+          if(matrix[pos[0]][pos[1]]){
+            matrix[pos[0]][pos[1]] += pos[2];
+          }
+          else{
+            matrix[pos[0]][pos[1]] = pos[2];
+          }
+        };
 
-				/* find max */
-				for(var col=0;col<matrix.length;col++)
-					for(var row=0;row<matrix[0].length;row++){
-						if(matrix[col][row]){
-							if(matrix[col][row] > max)
-								max = matrix[col][row];
-						}					
-						else{
-							matrix[col][row] = 0;
-						}
-				}
-				console.log(heat);
-				console.log(max);
-				heat.max(max);
-				heat.radius(10,15);
-				heat.data(dataset);
-				heat.draw();
-			});
-		});
+        /* find max */
+        for(var col=0;col<matrix.length;col++)
+          for(var row=0;row<matrix[0].length;row++){
+            if(matrix[col][row]){
+              if(matrix[col][row] > max)
+                max = matrix[col][row];
+            }         
+            else{
+              matrix[col][row] = 0;
+            }
+        }
+        console.log(heat);
+        console.log(max);
+        heat.max(max);
+        heat.radius(10,15);
+        heat.data(dataset);
+        heat.draw();
+      });
+    });
 
-		/* manual */
+    /* manual */
 
-		function readme(){
-			
-			/* simpleheat reference: https://github.com/mourner/simpleheat */
-			/* generate data points with normal distribution*/
-			var Kconst = 1/ ( Math.PI * Math.sqrt(2) );
-			var dataset = [];
-			for(var index=0;index < 500;index++){
-				var point = [];
-				point.push(Math.floor(Math.random()*320)+1);
-				point.push(Math.floor(Math.random()*480)+1);
-				point.push( (Kconst * Math.exp(Math.pow(Math.random(),2)*(-0.5))) );
+    function readme(){
+      
+      /* simpleheat reference: https://github.com/mourner/simpleheat */
+      /* generate data points with normal distribution*/
+      var Kconst = 1/ ( Math.PI * Math.sqrt(2) );
+      var dataset = [];
+      for(var index=0;index < 500;index++){
+        var point = [];
+        point.push(Math.floor(Math.random()*320)+1);
+        point.push(Math.floor(Math.random()*480)+1);
+        point.push( (Kconst * Math.exp(Math.pow(Math.random(),2)*(-0.5))) );
 
-				dataset.push(point);
-			};
+        dataset.push(point);
+      };
 
-			/* constructor -> create a simpleheat object given an id or canvas reference */
-			var heat = simpleheat("paper"),
-				minOpacity = 0.05,
-				max = 1,
-				point = [150,240,2],
-				r = 25,
-				r2 = 15,
-				grad = {0.4: 'blue', 0.65: 'lime', 1: 'red'};
+      /* constructor -> create a simpleheat object given an id or canvas reference */
+      var heat = simpleheat("paper"),
+        minOpacity = 0.05,
+        max = 1,
+        point = [150,240,2],
+        r = 25,
+        r2 = 15,
+        grad = {0.4: 'blue', 0.65: 'lime', 1: 'red'};
 
-			/* bind data -> set data of [[x, y, value], ...] format */
-			heat.data(dataset);
+      /* bind data -> set data of [[x, y, value], ...] format */
+      heat.data(dataset);
 
-			/*
-				// set max data value (1 by default)
-				heat.max(max);
+      /*
+        // set max data value (1 by default)
+        heat.max(max);
 
-				// add a data point
-				heat.add(point);
+        // add a data point
+        heat.add(point);
 
-				// clear data
-				heat.clear();
-			*/
+        // clear data
+        heat.clear();
+      */
 
-			/*
-				// set point radius and blur radius (25 and 15 by default)
-				heat.radius(r, r2);
+      /*
+        // set point radius and blur radius (25 and 15 by default)
+        heat.radius(r, r2);
 
-				// set gradient colors as {<stop>: '<color>'}, e.g. {0.4: 'blue', 0.65: 'lime', 1: 'red'}
-				heat.gradient(grad);
-			*/
-			heat.draw(minOpacity);
+        // set gradient colors as {<stop>: '<color>'}, e.g. {0.4: 'blue', 0.65: 'lime', 1: 'red'}
+        heat.gradient(grad);
+      */
+      heat.draw(minOpacity);
 
-			console.log(JSON.stringify(dataset));
-		}
-	</script>
+      console.log(JSON.stringify(dataset));
+    }
+  </script>
 </head>
 <body>
-	<div id="source">
-		<canvas id="paper" width="320px" height="480px"></canvas>
-		<img src="img/source.jpg"/>
-	</div>
+  <div id="source">
+    <canvas id="paper" width="320px" height="480px"></canvas>
+    <img src="img/source.jpg"/>
+  </div>
 </body>
 </html>
