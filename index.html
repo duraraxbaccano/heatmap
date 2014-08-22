@@ -31,12 +31,13 @@
           blur = 5,
           max = 10;
 
-        var matrix = new Array( 320 / radius + 1 );
+        // matrix -> all pixels of image ( width x height ) [ unit: 1px ]
+        var matrix = new Array( 320 + 1 );
 
         /* initial matrix */
 
         for (var index = 0; index < matrix.length; index++) {
-          matrix[index] = new Array( 480 / radius + 1 );
+          matrix[index] = new Array( 480 + 1 );
         }
 
         for (var index = 0; index < data.length; index++) {
@@ -50,7 +51,7 @@
 
           dataset.push(point);
 
-          var pos = [ parseInt( point[0] / radius ), parseInt( point[1] / radius ), point[2] ];
+          var pos = [ parseInt( point[0] ), parseInt( point[1] ), point[2] ];
           try {
             if (matrix[ pos[0] ][ pos[1] ]) {
               matrix[ pos[0] ][ pos[1] ] += pos[2];
