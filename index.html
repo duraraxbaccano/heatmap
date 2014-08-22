@@ -20,7 +20,7 @@
   <script type="text/javascript" src="js/jquery.min.js"></script>
   <script type="text/javascript" src="js/simpleheat.js"></script>
   <script>
-    $(document).ready(function(){
+    $(document).ready(function() {
       $.getJSON("raw.json", function(data) {
         var heat = simpleheat("paper"),
           dataset = [],
@@ -32,11 +32,11 @@
 
         /* initial matrix */
 
-        for(var index = 0; index < matrix.length; index++) {
+        for (var index = 0; index < matrix.length; index++) {
           matrix[index] = new Array( 480 / radius + 1 );
         }
 
-        for(var index=0; index < data.length; index++) {
+        for (var index = 0; index < data.length; index++) {
           var point = [];
           point[0] = parseFloat( data[index]["x"] ) / parseFloat( data[index]["w"] ) * 320;
           point[1] = parseFloat( data[index]["y"] ) / parseFloat( data[index]["h"] ) * 480;
@@ -45,7 +45,7 @@
 
           var pos = [ parseInt( point[0] / radius ), parseInt( point[1] / radius ), point[2] ];
           try {
-            if(matrix[ pos[0] ][ pos[1] ]) {
+            if (matrix[ pos[0] ][ pos[1] ]) {
               matrix[ pos[0] ][ pos[1] ] += pos[2];
             } else {
               matrix[ pos[0] ][ pos[1] ] = pos[2];
@@ -56,11 +56,11 @@
         }
 
         /* find max */
-        for(var col=0; col<matrix.length; col++) {
+        for (var col = 0; col < matrix.length; col++) {
 
-          for(var row=0; row<matrix[0].length; row++) {
-              if(matrix[col][row]) {
-                if(matrix[col][row] > max) {
+          for (var row = 0; row < matrix[0].length; row++) {
+              if (matrix[col][row]) {
+                if (matrix[col][row] > max) {
                   max = matrix[col][row];
                 }
               } else {
