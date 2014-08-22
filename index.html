@@ -24,8 +24,8 @@
       $.getJSON("raw.json", function(data) {
         var heat = simpleheat("paper"),
           dataset = [],
-          radius = 10,
-          blur = 15,
+          radius = 2,
+          blur = 5,
           max = 10;
 
         var matrix = new Array( 320 / radius + 1 );
@@ -70,7 +70,7 @@
         }
 
         heat.max(max);
-        heat.radius(4,5);
+        heat.radius( radius, blur );
         heat.data(dataset);
         heat.draw();
       });
