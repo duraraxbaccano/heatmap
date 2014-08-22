@@ -44,11 +44,14 @@
           dataset.push(point);
 
           var pos = [ parseInt( point[0] / radius ), parseInt( point[1] / radius ), point[2] ];
-
-          if(matrix[ pos[0] ][ pos[1] ]) {
-            matrix[ pos[0] ][ pos[1] ] += pos[2];
-          } else {
-            matrix[ pos[0] ][ pos[1] ] = pos[2];
+          try {
+            if(matrix[ pos[0] ][ pos[1] ]) {
+              matrix[ pos[0] ][ pos[1] ] += pos[2];
+            } else {
+              matrix[ pos[0] ][ pos[1] ] = pos[2];
+            }
+          } catch(e) {
+            console.log(e);
           }
         }
 
